@@ -1,13 +1,14 @@
+import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/login_screen.dart';
-import 'package:chat_app/Auth/view_model/user_provider.dart';
-import 'package:chat_app/app_them.dart';
-import 'package:chat_app/Auth/views/widgets/custom_button.dart';
-import 'package:chat_app/Auth/data/data_source/firebase_function.dart';
+import 'package:chat_app/shared/loading_indicator.dart';
+import 'package:chat_app/shared/show_message.dart';
+import 'package:chat_app/shared/app_them.dart';
+import 'package:chat_app/shared/custom_button.dart';
 import 'package:chat_app/screens/home_screen.dart';
-import 'package:chat_app/Auth/views/widgets/text_form_field.dart';
+import 'package:chat_app/shared/text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
@@ -98,16 +99,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 40,
                 ),
-                CustomButton(
-                  label: 'Create Account',
-                  oppressed: register,
+                BlocListener<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is RegisterLoading) {
+                      LoadingIndicator.show(context);
+                    } else if (state is RegisterSuccess) {
+                      LoadingIndicator.hide(context);
+                      Navigator.pushReplacementNamed(
+                          context, HomeScreen.routeName);
+                    } else if (state is RegisterError) {
+                      LoadingIndicator.hide(context);
+                      showToastMessage(state.message);
+                    }
+                  },
+                  child: CustomButton(
+                    label: 'Create Account',
+                    oppressed: register,
+                  ),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginScreen.routeName);
                   },
                   child: const Text(
                     'Already have an account',
@@ -123,25 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() {
     if (formKey.currentState!.validate()) {
-      FirebaseFunctions.register(
-        nameController.text,
-        passwordController.text,
-        emailController.text,
-      ).then(
-        (user) {
-          Provider.of<UserProvider>(context, listen: false).updateUser(user);
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-        },
-      ).catchError(
-        (error) {
-          Fluttertoast.showToast(
-              msg: "Something wrong",
-              toastLength: Toast.LENGTH_LONG,
-              timeInSecForIosWeb: 5,
-              backgroundColor: AppTheme.red,
-              textColor: AppTheme.white,
-              fontSize: 16.0);
-        },
+      BlocProvider.of<AuthCubit>(context).register(
+        email: emailController.text,
+        password: passwordController.text,
+        name: nameController.text,
       );
     }
   }

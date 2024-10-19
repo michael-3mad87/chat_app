@@ -1,14 +1,14 @@
+import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/register_screen.dart';
-import 'package:chat_app/Auth/view_model/user_provider.dart';
-import 'package:chat_app/app_them.dart';
-import 'package:chat_app/Auth/views/widgets/custom_button.dart';
-import 'package:chat_app/Auth/data/data_source/firebase_function.dart';
+import 'package:chat_app/shared/loading_indicator.dart';
+import 'package:chat_app/shared/show_message.dart';
+import 'package:chat_app/shared/app_them.dart';
+import 'package:chat_app/shared/custom_button.dart';
 import 'package:chat_app/screens/home_screen.dart';
-import 'package:chat_app/Auth/views/widgets/text_form_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chat_app/shared/text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login';
@@ -84,16 +84,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 40,
                 ),
-                CustomButton(
-                  label: 'Login',
-                  oppressed: login,
+                BlocListener<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is LoginLoading) {
+                      LoadingIndicator.show(context);
+                    } else if (state is LoginSuccess) {
+                      LoadingIndicator.hide(context);
+                      Navigator.pushReplacementNamed(
+                          context, HomeScreen.routeName);
+                    } else if (state is LoginError) {
+                       LoadingIndicator.hide(context);
+                      showToastMessage(state.message);
+                    }
+                  },
+                  child: CustomButton(
+                    label: 'Login',
+                    oppressed: login,
+                  ),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(RegisterScreen.routeName);
                   },
                   child: Text("Don't have an account ?",
                       style: TextStyle(color: AppTheme.primaryColor)),
@@ -108,31 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login() async {
     if (formKey.currentState!.validate()) {
-      try {
-        final user = await FirebaseFunctions.login(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-
-        Provider.of<UserProvider>(context, listen: false).updateUser(user);
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      } catch (error) {
-       
-        String? message;
-        if (error is FirebaseAuthException) {
-          message = error.message;
-        } else {
-          message = "Something went wrong";
-        }
-        Fluttertoast.showToast(
-          msg: message ?? "Something wrong",
-          toastLength: Toast.LENGTH_LONG,
-          timeInSecForIosWeb: 5,
-          backgroundColor: AppTheme.red,
-          textColor: AppTheme.white,
-          fontSize: 16.0,
-        );
-      }
+      BlocProvider.of<AuthCubit>(context).login(
+        email: emailController.text,
+        password: passwordController.text,
+      );
     }
   }
 }

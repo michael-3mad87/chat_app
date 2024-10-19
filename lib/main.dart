@@ -1,12 +1,13 @@
-import 'package:chat_app/Auth/view_model/user_provider.dart';
+import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/login_screen.dart';
 import 'package:chat_app/Auth/views/screens/register_screen.dart';
-import 'package:chat_app/app_them.dart';
+import 'package:chat_app/shared/app_them.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +15,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => UserProvider(),
+    BlocProvider(
+      create: (_) => AuthCubit(),
       child: const ChatApp(),
     ),
   );

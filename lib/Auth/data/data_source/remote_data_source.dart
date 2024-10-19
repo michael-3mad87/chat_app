@@ -2,7 +2,7 @@ import 'package:chat_app/Auth/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseFunctions {
+class RemoteDataSource {
   static CollectionReference<UserModel> getUsersCollections() =>
       FirebaseFirestore.instance.collection('users').withConverter<UserModel>(
             fromFirestore: (doucSnapshot, _) =>
@@ -11,9 +11,9 @@ class FirebaseFunctions {
           );
 
   static Future<UserModel> register(
-    String name,
-    String password,
-    String email,
+ { required String name,
+   required String password,
+   required String email,}
   ) async {
     final userCredential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(

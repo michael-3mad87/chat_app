@@ -1,4 +1,4 @@
-import 'package:chat_app/app_them.dart';
+import 'package:chat_app/shared/app_them.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -43,12 +43,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 },
                 icon: isObscure
                     ? Icon(
-                        Icons.visibility_off_outlined,
-                        color: AppTheme.white,
+                        Icons.visibility_outlined,
+                        color: AppTheme.primaryColor,
                       )
                     : Icon(
-                        Icons.visibility_outlined,
-                        color: AppTheme.white,
+                        Icons.visibility_off_outlined,
+                        color: AppTheme.primaryColor,
                       ),
               )
             : null,

@@ -32,11 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
+        title:const Text(
           ' Login',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppTheme.white,
-              ),
+          
         ),
       ),
       body: Container(

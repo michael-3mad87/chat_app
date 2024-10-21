@@ -9,7 +9,6 @@ import 'package:chat_app/shared/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
   const RegisterScreen({super.key});
@@ -36,11 +35,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         iconTheme: IconThemeData(
           color: AppTheme.white,
         ),
-        title: Text(
+        title: const Text(
           'Create Account',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppTheme.white,
-              ),
         ),
         backgroundColor: Colors.transparent,
       ),

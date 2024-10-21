@@ -7,11 +7,11 @@ class CustomTextFormField extends StatefulWidget {
     required this.controller,
     required this.hintText,
     this.maxLines = 1,
-    required this.validator,
+     this.validator,
     this.isPassword = false,
   });
   TextEditingController controller = TextEditingController();
-  final String hintText;
+  final String? hintText;
   final int? maxLines;
   bool isPassword = false;
 

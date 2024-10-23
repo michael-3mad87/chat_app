@@ -1,7 +1,8 @@
 import 'package:chat_app/shared/app_them.dart';
+import 'package:chat_app/shared/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
-class LoadingIndicator {
+class UIUtils {
   static void show(BuildContext context) {
     showDialog(
       context: context,
@@ -11,12 +12,10 @@ class LoadingIndicator {
         child: AlertDialog(
           content: SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,
-            child: Column(
+            child:const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircularProgressIndicator(
-                  color: AppTheme.primaryColor,
-                ),
+              LoadingIndicator()
               ],
             ),
           ),

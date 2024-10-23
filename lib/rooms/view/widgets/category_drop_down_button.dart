@@ -1,3 +1,4 @@
+import 'package:chat_app/rooms/data/models/category_model.dart';
 import 'package:chat_app/shared/app_them.dart';
 import 'package:flutter/material.dart';
 
@@ -13,30 +14,36 @@ class CategoryDropDownButton extends StatefulWidget {
 }
 
 class _CategoryDropDownButtonState extends State<CategoryDropDownButton> {
-  String? selectedCategory;
+  String? selectedCategoryId;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
-      value: selectedCategory,
+      value: selectedCategoryId,
       hint: Text(
         'Select Category',
         style: TextStyle(color: AppTheme.primaryColor),
       ),
-      items: ['Sports', 'Movies', 'Music']
+      items: CategoryModel.categories
           .map(
             (category) => DropdownMenuItem(
-              value: category,
-              child: Text(
-                category,
-                style: TextStyle(color: AppTheme.primaryColor),
+              value: category.id,
+              child: Row(
+                children: [
+                  Image.asset('assets/images/${category.imageName}.png' , height: 28,),
+                  const SizedBox(width: 10,),
+                  Text(
+                    category.name,
+                    style: TextStyle(color: AppTheme.primaryColor),
+                  ),
+                ],
               ),
             ),
           )
           .toList(),
-      onChanged: (value) {
+      onChanged: (categoryId) {
         setState(() {
-          selectedCategory = value;
-          widget.onCategorySelected(selectedCategory);
+          selectedCategoryId = categoryId;
+          widget.onCategorySelected(selectedCategoryId);
         });
       },
       isExpanded: true,

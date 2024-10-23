@@ -2,6 +2,7 @@ import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/login_screen.dart';
 import 'package:chat_app/Auth/views/screens/register_screen.dart';
 import 'package:chat_app/rooms/view/screens/create_room_screen.dart';
+import 'package:chat_app/shared/app_bloc_observer.dart';
 import 'package:chat_app/shared/app_them.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/screens/home_screen.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Bloc.observer = AppBlocObserver();
   runApp(
     BlocProvider(
       create: (_) => AuthCubit(),

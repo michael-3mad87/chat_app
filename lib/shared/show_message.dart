@@ -6,7 +6,7 @@ void showToastMessage(String message) {
     msg: message,
     toastLength: Toast.LENGTH_LONG,
     timeInSecForIosWeb: 5,
-    backgroundColor: AppTheme.red,
+    backgroundColor: AppTheme.primaryColor,
     textColor: AppTheme.white,
     fontSize: 16.0,
   );

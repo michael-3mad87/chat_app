@@ -1,6 +1,6 @@
 import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/login_screen.dart';
-import 'package:chat_app/shared/loading_indicator.dart';
+import 'package:chat_app/shared/ui_utils.dart';
 import 'package:chat_app/shared/show_message.dart';
 import 'package:chat_app/shared/app_them.dart';
 import 'package:chat_app/shared/custom_button.dart';
@@ -98,13 +98,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 BlocListener<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is RegisterLoading) {
-                      LoadingIndicator.show(context);
+                      UIUtils.show(context);
                     } else if (state is RegisterSuccess) {
-                      LoadingIndicator.hide(context);
+                      UIUtils.hide(context);
                       Navigator.pushReplacementNamed(
                           context, HomeScreen.routeName);
                     } else if (state is RegisterError) {
-                      LoadingIndicator.hide(context);
+                      UIUtils.hide(context);
                       showToastMessage(state.message);
                     }
                   },

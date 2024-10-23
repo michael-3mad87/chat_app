@@ -1,6 +1,6 @@
 import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/register_screen.dart';
-import 'package:chat_app/shared/loading_indicator.dart';
+import 'package:chat_app/shared/ui_utils.dart';
 import 'package:chat_app/shared/show_message.dart';
 import 'package:chat_app/shared/app_them.dart';
 import 'package:chat_app/shared/custom_button.dart';
@@ -8,7 +8,6 @@ import 'package:chat_app/screens/home_screen.dart';
 import 'package:chat_app/shared/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login';
@@ -32,9 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title:const Text(
+        title: const Text(
           ' Login',
-          
         ),
       ),
       body: Container(
@@ -85,13 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocListener<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is LoginLoading) {
-                      LoadingIndicator.show(context);
+                      UIUtils.show(context);
                     } else if (state is LoginSuccess) {
-                      LoadingIndicator.hide(context);
+                      UIUtils.hide(context);
                       Navigator.pushReplacementNamed(
                           context, HomeScreen.routeName);
                     } else if (state is LoginError) {
-                       LoadingIndicator.hide(context);
+                      UIUtils.hide(context);
                       showToastMessage(state.message);
                     }
                   },

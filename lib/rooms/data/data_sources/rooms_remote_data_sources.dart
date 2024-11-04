@@ -2,7 +2,7 @@ import 'package:chat_app/rooms/data/models/room_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoomsRemoteDataSources {
-  static CollectionReference<RoomModel> getRoomsCollection() =>
+   CollectionReference<RoomModel> getRoomsCollection() =>
       FirebaseFirestore.instance.collection('rooms').withConverter(
             fromFirestore: (snapshot, _) =>
                 RoomModel.fromJson(snapshot.data()!),

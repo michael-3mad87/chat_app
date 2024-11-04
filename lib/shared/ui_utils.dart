@@ -1,4 +1,3 @@
-import 'package:chat_app/shared/app_them.dart';
 import 'package:chat_app/shared/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 

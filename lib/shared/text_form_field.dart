@@ -22,7 +22,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  bool isObscure = false;
+  bool isObscure = true;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -42,12 +42,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   setState(() {});
                 },
                 icon: isObscure
-                    ? Icon(
-                        Icons.visibility_outlined,
+                    ?const Icon(
+                        Icons.visibility_off_outlined,
                         color: AppTheme.primaryColor,
                       )
-                    : Icon(
-                        Icons.visibility_off_outlined,
+                    : const Icon(
+                        Icons.visibility_outlined,
                         color: AppTheme.primaryColor,
                       ),
               )
@@ -56,7 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       maxLines: widget.maxLines,
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      obscureText: isObscure,
+      obscureText: widget.isPassword ? isObscure:false,
     );
   }
 }

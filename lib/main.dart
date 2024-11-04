@@ -1,6 +1,7 @@
 import 'package:chat_app/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:chat_app/Auth/views/screens/login_screen.dart';
 import 'package:chat_app/Auth/views/screens/register_screen.dart';
+import 'package:chat_app/chat/views/screen/chat_screen.dart';
 import 'package:chat_app/rooms/view/screens/create_room_screen.dart';
 import 'package:chat_app/shared/app_bloc_observer.dart';
 import 'package:chat_app/shared/app_them.dart';
@@ -36,8 +37,9 @@ class ChatApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => const RegisterScreen(),
         HomeScreen.routeName: (_) => const HomeScreen(),
         CreateRoomScreen.routeName: (_) => const CreateRoomScreen(),
+        ChatScreen.routeName: (_) => const ChatScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
     );
